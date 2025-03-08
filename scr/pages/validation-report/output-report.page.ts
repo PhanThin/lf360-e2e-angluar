@@ -10,13 +10,23 @@ import { ValidationReportTypeEnum } from "../../enum/ValidationReportTypeEnum";
 import { TimeRangerFilterEnum } from "../../enum/TimeRangerFilterEnum";
 import { ViewModeEnum } from "../../enum/ValidationReportViewModeEnum";
 
-class DateRow {
+class DateRecord {
     private _dailyRows_element: Locator;
     get dailyRows_element(): Locator {
         return this._dailyRows_element;
     }
     set dailyRows_element(value: Locator) {
         this._dailyRows_element = value;
+    }
+}
+
+class PageRecord {
+    private _dateRows: DateRecord[] = [];
+    get dateRows(): DateRecord[] {
+        return this._dateRows;
+    }
+    set dateRows(value: DateRecord[]) {
+        this._dateRows = value;
     }
 }
 
@@ -50,12 +60,12 @@ export default class OutputReportPage extends Wrapper {
     set totalUnValidateEachDayWithoutConflict(value: number[]) {
         this._totalUnValidateEachDayWithoutConflict = value;
     }
-    get arrChildItemOfDay(): Locator[][] {
-        return this._arrChildItemOfDay;
+    get reportRecords(): PageRecord[] {
+        return this._reportRecords;
     }
 
-    set arrChildItemOfDay(value: Locator[][]) {
-        this._arrChildItemOfDay = value;
+    set reportRecords(value: PageRecord[]) {
+        this._reportRecords = value;
     }
     get prevItem(): Locator {
         return this._prevItem;
@@ -103,7 +113,7 @@ export default class OutputReportPage extends Wrapper {
     private _totalRow: Locator;
     private _nextItem: Locator;
     private _prevItem: Locator;
-    private _arrChildItemOfDay: Locator[][] = [];
+    private _reportRecords: PageRecord[] = [];
     private _totalUnValidateEachDayWithoutConflict: number[] = [];
     private _wocViewBy: Locator;
     private _listBoxViewBy: Locator;
@@ -679,7 +689,8 @@ export default class OutputReportPage extends Wrapper {
             let totalDurationCalculateByManual = 0; // total duration calculated by sum duration of all date rows
 
             let unvalidateRowCount = 0; // number of unvalidate rows
-            let dateRows: DateRow[] = []; // all record rows grouped by date
+            let pageRecord: PageRecord = new PageRecord(); // all record rows grouped by date
+            pageRecord.dateRows = [];
             
             // screenshot to run compare by photo
             this.page.screenshot({ path: './screenshots/Duration' + this.index + '.png' })
@@ -698,26 +709,26 @@ export default class OutputReportPage extends Wrapper {
 
                     // Click to expand the row
                     await this.expandableGroupedByDayRows.nth(indexDateRow).click();
-                    // Get all record rows in the day and plus to recordRowsGroupByDay
-                    let dateRow = new DateRow();
-                    dateRow.dailyRows_element = await this.expandableGroupedByDayRows.nth(indexDateRow).locator('.medium-12.columns.report-trip-row.timebooking-center.cursor-pointer:visible');
-                    dateRows.push(dateRow);
+                    // Get all record rows in the day and plus to dateRows
+                    let dateRecord = new DateRecord();
+                    dateRecord.dailyRows_element = await this.expandableGroupedByDayRows.nth(indexDateRow).locator('.medium-12.columns.report-trip-row.timebooking-center.cursor-pointer:visible');
+                    pageRecord.dateRows.push(dateRecord);
                     // Get number of unvalidate rows in this day and plus to total unvalidate rows 
                     unvalidateRowCount += await this.expandableGroupedByDayRows.nth(indexDateRow).locator('.medium-12.columns.report-trip-row.timebooking-center.cursor-pointer:visible').locator(this.sCheckRow).count();
                     console.log('total duration - total Unvalidate rows: ' + unvalidateRowCount);
                     
                     // Check if the row has conflict row before=> minus to total unvalidate rows
-                    for (let indexRow = 0; indexRow < await dateRows[indexDateRow].dailyRows_element.count(); indexRow++) {
-                        if (await dateRows[indexDateRow].dailyRows_element.nth(indexRow).locator(this.sConflictRow).count() > 0) unvalidateRowCount--;
+                    for (let indexRow = 0; indexRow < await pageRecord.dateRows[indexDateRow].dailyRows_element.count(); indexRow++) {
+                        if (await pageRecord.dateRows[indexDateRow].dailyRows_element.nth(indexRow).locator(this.sConflictRow).count() > 0) unvalidateRowCount--;
                     }
                     console.log('total duration - total Unvalidate rows without conflict: ' + unvalidateRowCount);
                 } else {
-                    dateRows.push(null); // There is no record rows in this day
+                    pageRecord.dateRows.push(null); // There is no record rows in this day
                 }
 
             }
 
-            this.arrChildItemOfDay.push(recordRowsGroupByDay);
+            this.reportRecords.push(pageRecord);
             this.totalUnValidateEachDayWithoutConflict.push(unvalidateRowCount);
 
             // Compare total duration calculated by report and by manual
