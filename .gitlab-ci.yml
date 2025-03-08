@@ -1,0 +1,64 @@
+test-dev:
+    image: mcr.microsoft.com/playwright:v1.27.1-focal
+    before_script: 
+        - apt-get update -y
+        - npm install 
+    script: 
+        - npm run test:pta
+    only:
+        refs:
+        - main
+    artifacts:
+        paths:
+            - playwright-report/*.html
+            - playwright-report/data/*.webm
+            - screenshots/*.png
+
+
+test-int:
+    image: mcr.microsoft.com/playwright:v1.27.1-focal
+    before_script: 
+        - apt-get update -y
+        - npm install 
+    script: 
+        - npm run test:int
+    only:
+        refs:
+        - int
+    when: manual
+    artifacts:
+        paths:
+            - playwright-report/*.html
+            - playwright-report/data/*.webm
+            - screenshots/*.png
+
+
+test-pta: 
+    image: mcr.microsoft.com/playwright:v1.27.1-focal
+    before_script: 
+        - apt-get update -y
+        - npm install 
+    script: 
+        - npm run test:pta
+    only:
+        refs:
+        - pta
+    when: manual
+    artifacts:
+        paths:
+            - playwright-report/*.html
+            - playwright-report/data/*.webm
+            - screenshots/*.png
+
+
+test-production:
+    image: mcr.microsoft.com/playwright:v1.27.1-focal
+    before_script: 
+        - apt-get update -y
+        - npm install 
+    script: 
+        - npm run test:prd
+    only:
+        refs:
+        - master
+    when: manual

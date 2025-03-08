@@ -1,0 +1,22 @@
+{
+  "dir": "./session/",
+  "accounts_int": [
+    {
+      "user": "int-demo",
+      "password": "An12345678",
+      "filename": "int_quydoan.json"
+    }
+  ],
+  "accounts_pta": [
+    {
+      "user": "pta-tm-autotest",
+      "password": "An12345678",
+      "filename": "pta_linhht.json"
+    },
+    {
+      "user": "quynd",
+      "password": "admin191",
+      "filename": "pta_quynd.json"
+    }
+  ]
+}

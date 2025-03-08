@@ -1,0 +1,25 @@
+{
+  "fail" :[
+    {
+    "username" : "invalid username",
+    "password": "invalid password"
+    } ,
+    {
+    "username" : "can not login",
+    "password": "can not login"
+    },
+    {
+    "username" : "dont try again",
+    "password": "dont try again"
+    }],
+  "success" : [
+    {
+      "username" : "quydoan",
+      "password": "An12345678"
+    },
+    {
+      "username" : "linhht@bitnemo.vn",
+      "password": "Admin19101"
+    }
+  ]
+}

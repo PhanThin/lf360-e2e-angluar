@@ -1,0 +1,41 @@
+{
+  "statistics": {
+    "driving_time": "span:below(h6:has-text('Driving time')) >> nth=0",
+    "stopped_time": ".history-stats-panel-statistics-stopped-time",
+    "idle_time": ".history-stats-panel-statistics-idle-time",
+    "equipment_time": ".history-stats-panel-statistics-equipment-time",
+    "engagement_time": ".history-stats-panel-statistics-engagement-time",
+    "private_distance": ".history-stats-panel-statistics-private-time",
+    "total_distance": "span:below(h6:has-text('Total distance')) >> nth=0",
+    "number_trips" : ".history-stats-panel-statistics-distance"
+  },
+  "activity_log": {
+    "last_journey": "li.k-item.k-last[role=\"treeitem\"]:visible"
+  },
+  "journey": {
+    "final_total": {
+      "itself" : "#report-time-lapse-total",
+      "distance": "span[ng-if=\"!dataByPage.privateTripsPresent\"]",
+      "duration": "div:right-of(span[ng-if=\"!dataByPage.privateTripsPresent\"]) >> nth=0",
+      "stopped_time": "div.text-right:right-of(span[ng-if=\"!dataByPage.privateTripsPresent\"]) >> nth=0",
+      "engagement_time": "div.text-right:right-of(span[ng-if=\"!dataByPage.privateTripsPresent\"]) >> nth=1"
+    },
+    "week_total": {
+      "itself" : ".report-total-week",
+      "distance": "span[ng-if=\"!week.privateTripsPresent\"]",
+      "duration": "div:right-of(span[ng-if=\"!week.privateTripsPresent\"]) >> nth=0",
+      "stopped_time": "div.text-right:right-of(span[ng-if=\"!week.privateTripsPresent\"]) >> nth=0",
+      "engagement_time": "div.text-right:right-of(span[ng-if=\"!week.privateTripsPresent\"]) >> nth=1"
+    },
+    "week_day":{
+      "itself": ".report-total-day",
+      "day" : "div[ng-if=\"(day.trips | filter: {privateTrip:false}).length > 0\"]",
+      "hour": "div:right-of(div[ng-if=\"(day.trips | filter: {privateTrip:false}).length > 0\"]) >> nth=0",
+      "distance" : "span[ng-if=\"(day.trips | filter: {privateTrip:true}).length === 0\"]",
+      "duration": "div:right-of(span[ng-if=\"(day.trips | filter: {privateTrip:true}).length === 0\"]) >> nth=0",
+      "stopped_time": "div.text-right:right-of(span[ng-if=\"(day.trips | filter: {privateTrip:true}).length === 0\"]) >> nth=0",
+      "engagement_time": "div.text-right:right-of(span[ng-if=\"(day.trips | filter: {privateTrip:true}).length === 0\"]) >> nth=1"
+    },
+    "week": ".report-week-row"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "autotest_pta_lf_critical",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:dev" : "npx playwright test --config=env/dev.config.ts",
+    "debug:dev" : "npx playwright test --config=env/dev.config.ts  --headed --timeout=0",
+    "test:int" : "npx playwright test --config=env/int.config.ts",
+    "test:pta" : "npx playwright test --config=env/pta.config.ts",
+    "test:prd" : "npx playwright test --config=env/prd.config.ts",    
+    
+    "" : "",
+    "" : ""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.27.1"
+  },
+  "config": {
+    "mode": "light"
+  }
+}
